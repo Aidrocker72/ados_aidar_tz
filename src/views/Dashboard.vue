@@ -4,7 +4,10 @@
             <Header @create="showCreate = true" @filter="showFilter = true" />
 
             <div class="dashboard__content">
-                <SessionTable />
+                <div class="table-wrapper">
+                    <SessionTable />
+                </div>
+
                 <Pagination />
             </div>
         </div>
@@ -35,21 +38,39 @@ const showFilter = ref(false)
 <style lang="scss">
 .dashboard {
     display: flex;
-    max-height: 100vh;
-    height: 100%;
+    min-height: 100vh;
     background: #f8f9fa;
 
     &__main {
         flex: 1;
         padding: 20px;
-        background: #ffff;
+        background: var(--color-white);
     }
 
     &__content {
-        max-width: 1200px;
-        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 140px);
     }
 
-   
+    .table-wrapper {
+        flex: 1;
+        overflow-y: auto;
+        height: 600px;
+        margin: 16px 0;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+    }
 }
 </style>

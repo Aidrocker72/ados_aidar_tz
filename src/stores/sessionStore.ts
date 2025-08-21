@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import type { IFilters } from '@/interfaces/IFilters';
 import type { ISession } from '@/interfaces/ISession';
 import { formatSessionDate } from '@/utils/date';
+import { SESSION_STATUS_LABELS } from '@/constants/sessionStatusLabels';
+import { SESSION_TYPE_LABELS } from '@/constants/sessionTypeLabel';
 
 export const useSessionStore = defineStore('session', {
   state: () => ({
@@ -48,12 +50,12 @@ export const useSessionStore = defineStore('session', {
       return result
     },
     paginatedSessions(state): ISession[] {
-      const start = (state.currentPage - 1) * 10
-      const end = start + 10;
+      const start = (state.currentPage - 1) * 9
+      const end = start + 9;
       return this.filteredAndSortedSessions.slice(start, end)
     },
     totalPages(): number {
-      return Math.ceil(this.filteredAndSortedSessions.length / 10)
+      return Math.ceil(this.filteredAndSortedSessions.length / 9)
     },
   },
   actions: {
@@ -91,10 +93,10 @@ export const useSessionStore = defineStore('session', {
           id: s.id,
           module: s.module,
           status: s.status.name,
+          type: SESSION_TYPE_LABELS[s.type.name as keyof typeof SESSION_TYPE_LABELS] || s.type.name,
           date: formatSessionDate(s.start, s.end),
-          count: s.groups?.length || 0,
-          room: s.rooms[0]?.name || '-',
-          responsible: s.rooms[0]?.responsible?.name || '-',
+          room: s.rooms.map((r: any) => r.name).join(', '),
+          group: s.groups.map((g: any) => g.name).join(', '),
         }))
       } catch (error) {
         console.error('Не удалось загрузить сессии:', error)

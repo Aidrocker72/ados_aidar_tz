@@ -3,7 +3,9 @@ import type { SessionStatusEnum } from "@/enums/SessionStatusEnum";
 export interface ISession {
     id: number;
     module: string;
-    status: SessionStatusEnum | string;
+    status: SessionStatusEnum;
+    type: string;
     date: string;
-    count: number
+    room: string;
+    group: string;
 }
