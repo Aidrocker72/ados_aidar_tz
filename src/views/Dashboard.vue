@@ -57,7 +57,6 @@ const showFilter = ref(false)
         flex: 1;
         overflow-y: auto;
         height: 600px;
-        margin: 16px 0;
 
         &::-webkit-scrollbar {
             width: 6px;

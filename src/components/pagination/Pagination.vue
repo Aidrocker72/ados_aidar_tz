@@ -5,7 +5,7 @@
         @click="changePage(current - 1)"
         class="pagination__btn pagination__btn_prev"
       >
-        Назад
+        <SvgIcon name="arrow" />
       </button>
       <button
         v-for="page in pages"
@@ -18,9 +18,9 @@
       <button
         :disabled="current === total"
         @click="changePage(current + 1)"
-        class="pagination__btn pagination__btn_next"
+        class="pagination__btn pagination__btn__next"
       >
-        Вперёд
+        <SvgIcon name="arrow" />
       </button>
     </div>
   </template>
@@ -28,6 +28,7 @@
   <script setup lang="ts">
   import { computed } from 'vue';
   import { useSessionStore } from '@/stores/sessionStore';
+import SvgIcon from '../shared/SvgIcon.vue';
   
   const store = useSessionStore();
   

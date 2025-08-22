@@ -13,72 +13,72 @@
 
 .modal {
     background: white;
-    width: 400px;
+    min-width: 400px;
     max-width: 90vw;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-}
 
-.modal__title {
-    padding: 20px;
-    margin: 0;
-    font-size: 18px;
-    border-bottom: 1px solid #eee;
-    background: #f8f9fa;
-}
-
-.modal__form {
-    padding: 20px;
-}
-
-.modal__field {
-    margin-bottom: 15px;
-
-    label {
-        display: block;
-        margin-bottom: 6px;
-        font-size: 14px;
-        color: #555;
+    &__title {
+        padding: 20px;
+        margin: 0;
+        font-size: 18px;
+        border-bottom: 1px solid #eee;
+        background: #f8f9fa;
     }
 
-    input,
-    select {
-        width: 100%;
-        padding: 10px;
+    &__form {
+        padding: 20px;
+    }
+
+    &__field {
+        margin-bottom: 15px;
+    
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+    
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    __btn {
+        padding: 8px 16px;
         border: 1px solid #ddd;
+        background: white;
+        color: #333;
+        cursor: pointer;
         border-radius: 6px;
         font-size: 14px;
-    }
-}
-
-.modal__actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.modal__btn {
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    background: white;
-    color: #333;
-    cursor: pointer;
-    border-radius: 6px;
-    font-size: 14px;
-
-    &:hover {
-        background: #f5f5f5;
-    }
-
-    &_primary {
-        background: #007bff;
-        color: white;
-        border: none;
-
+    
         &:hover {
-            background: #0069d9;
+            background: #f5f5f5;
+        }
+    
+        &_primary {
+            background: #007bff;
+            color: white;
+            border: none;
+    
+            &:hover {
+                background: #0069d9;
+            }
         }
     }
 }

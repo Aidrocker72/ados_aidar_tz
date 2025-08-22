@@ -4,24 +4,40 @@
             <h3 class="modal__title">Создать сессию</h3>
             <form @submit.prevent="submit" class="modal__form">
                 <div class="modal__field">
-                    <label>Модуль</label>
+                    <label>Название модуля</label>
                     <input v-model="form.module" required />
                 </div>
                 <div class="modal__field">
-                    <label>Статус</label>
-                    <select v-model="form.status" required>
-                        <option value="Активный">{{ sessionStatus.COMPLETED }}</option>
-                        <option value="Завершён">{{ sessionStatus.CANCELED }}</option>
-                        <option value="На паузе">{{ sessionStatus.PLANNED }}</option>
+                    <label>Тип сессии</label>
+                    <select v-model="form.type">
+                        <option :value="SessionTypeEnum.LESSON">
+                            {{ SESSION_TYPE_LABELS[SessionTypeEnum.LESSON] }}
+                        </option>
+                        <option :value="SessionTypeEnum.EXAMINATION">
+                            {{ SESSION_TYPE_LABELS[SessionTypeEnum.EXAMINATION] }}
+                        </option>
+                        <option :value="SessionTypeEnum.ACCREDITATION">
+                            {{ SESSION_TYPE_LABELS[SessionTypeEnum.ACCREDITATION] }}
+                        </option>
                     </select>
                 </div>
                 <div class="modal__field">
-                    <label>Дата</label>
-                    <input v-model="form.date" type="date" required />
+                    <label>Дата и время начала</label>
+                    <input v-model="form.start" type="datetime-local" required />
                 </div>
+
                 <div class="modal__field">
-                    <label>Количество</label>
-                    <input v-model.number="form.count" type="number" required />
+                    <label>Дата и время окончания</label>
+                    <input v-model="form.end" type="datetime-local" required />
+                </div>
+
+                <div class="modal__field">
+                    <label>Комната</label>
+                    <select v-model="form.room">
+                        <option>413</option>
+                        <option>412</option>
+                        <option>414</option>
+                    </select>
                 </div>
                 <div class="modal__actions">
                     <button type="button" @click="emit('close')" class="modal__btn">Отмена</button>
@@ -37,21 +53,43 @@ import { reactive } from 'vue'
 import { useSessionStore } from '@/stores/sessionStore';
 import { SessionStatusEnum } from '@/enums/SessionStatusEnum';
 import { IModalEmits } from '@/interfaces/emits/IModalEmits';
+import { SESSION_TYPE_LABELS } from '@/constants/sessionTypeLabel';
+import { SessionTypeEnum } from '@/enums/SessionTypeEnum';
+import { formatDate } from '@/utils/formatDate';
 
 const store = useSessionStore()
 const emit = defineEmits<IModalEmits>();
-const sessionStatus = SessionStatusEnum;
 
 const form = reactive({
     module: '',
-    status: sessionStatus.COMPLETED,
-    date: '',
-    count: 0,
+    type: SessionTypeEnum.LESSON,
+    status: SessionStatusEnum.PLANNED,
+    start: '',
+    end: '',
+    room: '413',
 })
 
 const submit = () => {
-    store.addSession(form)
+    const newSession = {
+        id: Date.now(),
+        module: form.module,
+        type: SESSION_TYPE_LABELS[form.type as SessionTypeEnum],
+        status: form.status as SessionStatusEnum,
+        date: `${formatDate(form.start)} - ${formatTime(form.end)}`,
+        room: form.room,
+        group: 'Группа 1',
+        responsible: 'Курткобейн Бондарчук',
+    }
+
+    store.sessions.unshift(newSession)
     emit('close')
+}
+
+
+const formatTime = (datetime: string) => {
+    if (!datetime) return ''
+    const d = new Date(datetime)
+    return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
 }
 </script>
 

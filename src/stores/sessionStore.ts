@@ -2,13 +2,19 @@ import { defineStore } from 'pinia'
 import type { IFilters } from '@/interfaces/IFilters';
 import type { ISession } from '@/interfaces/ISession';
 import { formatSessionDate } from '@/utils/date';
-import { SESSION_STATUS_LABELS } from '@/constants/sessionStatusLabels';
 import { SESSION_TYPE_LABELS } from '@/constants/sessionTypeLabel';
+import { formatDate } from '@/utils/formatDate';
 
 export const useSessionStore = defineStore('session', {
   state: () => ({
     sessions: [] as ISession[],
-    filters: { status: '', dateFrom: '', dateTo: '' } as IFilters,
+    filters: {
+      type: '',
+      status: '',
+      module: '',
+      dateFrom: '',
+      dateTo: '',
+    } as IFilters,
     searchTerm: '',
     currentPage: 1,
     sortBy: '' as keyof ISession | '',
@@ -23,14 +29,21 @@ export const useSessionStore = defineStore('session', {
         result = result.filter(s => s.module.toLowerCase().includes(term))
       }
 
+      if (state.filters.type) {
+        result = result.filter(s => s.type === state.filters.type)
+      }
       if (state.filters.status) {
         result = result.filter(s => s.status === state.filters.status)
       }
+      if (state.filters.module) {
+        const term = state.filters.module.toLowerCase()
+        result = result.filter(s => s.module.toLowerCase().includes(term))
+      }
       if (state.filters.dateFrom) {
-        result = result.filter(s => s.date >= state.filters.dateFrom)
+        result = result.filter(s => s.date >= formatDate(state.filters.dateFrom))
       }
       if (state.filters.dateTo) {
-        result = result.filter(s => s.date <= state.filters.dateTo)
+        result = result.filter(s => s.date <= formatDate(state.filters.dateTo))
       }
 
 
