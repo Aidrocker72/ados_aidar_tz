@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 import type { IFilters } from '@/interfaces/IFilters';
 import type { ISession } from '@/interfaces/ISession';
 import { formatSessionDate } from '@/utils/date';
