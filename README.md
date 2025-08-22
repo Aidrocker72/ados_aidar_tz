@@ -33,7 +33,7 @@
 
 1. Клонировать репозиторий:
    ```bash
-   git clone https://github.com/ваш-ник/test-dashboard.git
+   git clone hhttps://github.com/Aidrocker72/ados_aidar_tz
 ---
 
 2. Установка зависимостей 
